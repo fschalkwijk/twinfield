@@ -79,7 +79,7 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('status', $invoice->getStatus()));
 
         $invoiceTypeApiConnector = new InvoiceTypeApiConnector($connection);
-        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType(Util::objectToStr($invoice->getInvoiceType()));
+        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType(Util::objectToStr($invoice->getInvoiceType()), $invoice->getOffice());
 
         $articleApiConnector = new ArticleApiConnector($connection);
 

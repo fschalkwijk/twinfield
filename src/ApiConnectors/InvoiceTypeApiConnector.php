@@ -4,7 +4,9 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\InvoiceType;
+use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Util;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -55,13 +57,15 @@ class InvoiceTypeApiConnector extends BaseApiConnector
      * Determine if a specified invoice type is of the inclusive or exclusive VAT type.
      *
      * @param string $pattern  The search pattern. May contain wildcards * and ?, but should be the full code of the invoice type
+     * @param Office $office  The office in which to search for the invoice VAT type
      *
      * @return string Is the invoice type of the inclusive or exclusive VAT type.
      */
     public function getInvoiceTypeVatType(
-        string $pattern
+        string $pattern,
+        Office $office
     ): ?string {
-        $options = array('vat' => 'inclusive');
+        $options = array('vat' => 'inclusive', 'office' => Util::objectToStr($office));
         $optionsArrayOfString = $this->convertOptionsToArrayOfString($options);
 
         $response = $this->getFinderService()->searchFinder(FinderService::TYPE_INVOICE_TYPES, $pattern, 1, 1, 1, $optionsArrayOfString);
